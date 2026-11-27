@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05050a">
+<title>অর্ডার করুন | One X Mart</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#05050a;--line:rgba(255,255,255,.12);--text:#f4f3ff;--muted:#a9a7c4;--green:#2ee59d;--red:#ff5c7a;
+--gm:linear-gradient(120deg,#7c5cff,#ff3d81 55%,#ffb020);--gc:linear-gradient(120deg,#00d4ff,#7c5cff)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--ink);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.5;padding-bottom:40px}
+.bg{position:fixed;inset:0;z-index:-1;background:
+radial-gradient(circle at 10% 0,rgba(124,92,255,.35),transparent 45%),
+radial-gradient(circle at 100% 60%,rgba(255,61,129,.26),transparent 45%),
+radial-gradient(circle at 0 100%,rgba(0,212,255,.2),transparent 45%),
+repeating-linear-gradient(115deg,transparent 0 118px,rgba(255,255,255,.04) 118px 120px),var(--ink)}
+.top{position:sticky;top:0;z-index:20;background:rgba(5,5,10,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .in{max-width:620px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.back{border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--text);font-family:inherit;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer;font-size:.9rem}
+.brand{font-family:'Noto Serif Bengali',serif;font-weight:800;font-size:1.1rem;background:var(--gm);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wrap{max-width:620px;margin:0 auto;padding:16px}
+h2{font-size:1.3rem;margin:4px 0 14px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:5px;height:22px;border-radius:4px;background:var(--gm);transform:skewX(-14deg)}
+.card{background:rgba(14,14,28,.85);border:1px solid var(--line);border-radius:22px;padding:18px 16px;margin-bottom:14px}
+.sum{display:flex;gap:12px;align-items:center}
+.sum img{width:76px;height:76px;border-radius:14px;object-fit:cover;background:#14142a;flex:none}
+.sum b{display:block;font-size:1.05rem;line-height:1.35}
+.sum span{font-weight:700;background:var(--gc);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.1rem}
+label.f{display:block;margin-bottom:14px}
+label.f>span,.lb{display:block;font-size:.92rem;font-weight:600;margin-bottom:6px}
+.n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--gm);font-size:.75rem;margin-right:6px}
+input,select{width:100%;background:rgba(255,255,255,.07);border:1.5px solid var(--line);border-radius:14px;color:var(--text);font-family:inherit;font-size:1rem;padding:12px 14px;outline:0}
+select option{background:#14142a;color:#fff}
+input:focus,select:focus{border-color:#00d4ff}
+.bad{border-color:var(--red)!important}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.chip{border:1.5px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font-family:inherit;font-size:.98rem;font-weight:600;padding:8px 18px;border-radius:14px;cursor:pointer}
+.chip.on{border-color:transparent;background:var(--gc);color:#fff}
+.qty{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.qty button{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;font-size:1.4rem;cursor:pointer}
+.qty b{min-width:40px;text-align:center;font-size:1.3rem}
+.total{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:16px;background:rgba(0,212,255,.08);border:1px dashed rgba(0,212,255,.5);margin-bottom:16px}
+.total b{font-size:1.5rem;background:var(--gm);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{width:100%;border:0;cursor:pointer;color:#fff;font-family:inherit;font-size:1.15rem;font-weight:700;padding:15px;border-radius:16px;background:var(--gm);box-shadow:0 12px 28px -10px rgba(255,61,129,.7)}
+.btn:disabled{opacity:.55}
+.hint{color:var(--muted);font-size:.85rem;text-align:center;margin-top:10px}
+.empty{text-align:center;color:var(--muted);padding:60px 16px}.empty a{color:#fff;font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,30px);opacity:0;z-index:90;background:#14142a;border:1px solid var(--red);color:var(--red);padding:12px 20px;border-radius:99px;font-weight:600;max-width:92vw;text-align:center;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="top"><div class="in"><button class="back" id="backBtn" type="button">← পেছনে</button><span class="brand">One X Mart</span></div></div>
+<main class="wrap" id="app"><div class="empty">লোড হচ্ছে...</div></main>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const db = getDatabase(initializeApp({
+  apiKey: "AIzaSyAoQiTua4EcGnxAl3qs7056WMwehd4qQgc",
+  authDomain: "one-x-mart.firebaseapp.com",
+  databaseURL: "https://one-x-mart-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "one-x-mart",
+  storageBucket: "one-x-mart.firebasestorage.app",
+  messagingSenderId: "451753691167",
+  appId: "1:451753691167:web:e72bf1c201e538dc052d2a"
+}));
+
+const $ = (s) => document.querySelector(s);
+const bn = (n) => Number(n || 0).toLocaleString("bn-BD");
+const toEn = (s) => String(s || "").replace(/[০-৯]/g, (d) => "০১২৩৪৫৬৭৮৯".indexOf(d)).replace(/[\s-]/g, "");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const thumb = (u) => (u && u.includes("res.cloudinary.com") && u.includes("/upload/")) ? u.replace("/upload/", "/upload/f_auto,q_auto:best,w_300,c_limit/") : u;
+
+let tt;
+function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2800); }
+
+/* বিভাগ ও জেলা */
+const AREA = {
+  "ঢাকা": ["ঢাকা", "ফরিদপুর", "গাজীপুর", "গোপালগঞ্জ", "কিশোরগঞ্জ", "মাদারীপুর", "মানিকগঞ্জ", "মুন্সিগঞ্জ", "নারায়ণগঞ্জ", "নরসিংদী", "রাজবাড়ী", "শরীয়তপুর", "টাঙ্গাইল"],
+  "চট্টগ্রাম": ["বান্দরবান", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "চট্টগ্রাম", "কুমিল্লা", "কক্সবাজার", "ফেনী", "খাগড়াছড়ি", "লক্ষ্মীপুর", "নোয়াখালী", "রাঙ্গামাটি"],
+  "রাজশাহী": ["বগুড়া", "জয়পুরহাট", "নওগাঁ", "নাটোর", "চাঁপাইনবাবগঞ্জ", "পাবনা", "রাজশাহী", "সিরাজগঞ্জ"],
+  "খুলনা": ["বাগেরহাট", "চুয়াডাঙ্গা", "যশোর", "ঝিনাইদহ", "খুলনা", "কুষ্টিয়া", "মাগুরা", "মেহেরপুর", "নড়াইল", "সাতক্ষীরা"],
+  "বরিশাল": ["বরগুনা", "বরিশাল", "ভোলা", "ঝালকাঠি", "পটুয়াখালী", "পিরোজপুর"],
+  "সিলেট": ["হবিগঞ্জ", "মৌলভীবাজার", "সুনামগঞ্জ", "সিলেট"],
+  "রংপুর": ["দিনাজপুর", "গাইবান্ধা", "কুড়িগ্রাম", "লালমনিরহাট", "নীলফামারী", "পঞ্চগড়", "রংপুর", "ঠাকুরগাঁও"],
+  "ময়মনসিংহ": ["জামালপুর", "ময়মনসিংহ", "নেত্রকোণা", "শেরপুর"]
+};
+
+const q = new URLSearchParams(location.search);
+const id = q.get("id");
+let p = null, wa = "", size = q.get("size") || "", color = q.get("color") || "", qty = 1;
+
+$("#backBtn").addEventListener("click", () => (history.length > 1 ? history.back() : (location.href = id ? "product.html?id=" + encodeURIComponent(id) : "index.html")));
+
+function fail(msg) {
+  $("#app").innerHTML = '<div class="empty"><p>' + esc(msg || "পণ্যটি খুঁজে পাওয়া যায়নি।") + '</p><p style="margin-top:12px"><a href="index.html">← হোম পেজে ফিরুন</a></p></div>';
+}
+
+function drawChips(boxId, list, cur, set) {
+  const box = $(boxId);
+  box.innerHTML = "";
+  list.forEach((v) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip" + (v === cur ? " on" : "");
+    b.textContent = v;
+    b.addEventListener("click", () => { set(v); drawAll(); });
+    box.appendChild(b);
+  });
+}
+function drawAll() {
+  if (p.colors && p.colors.length) drawChips("#colors", p.colors, color, (v) => (color = v));
+  if (p.sizes && p.sizes.length) drawChips("#sizes", p.sizes, size, (v) => (size = v));
+  $("#qv").textContent = bn(qty);
+  $("#tot").textContent = "৳" + bn(Number(p.price) * qty);
+}
+
+function render() {
+  const img = p.image || (p.images && p.images[0]) || "";
+  const hasC = p.colors && p.colors.length, hasS = p.sizes && p.sizes.length;
+  if (hasC && !p.colors.includes(color)) color = "";
+  if (hasS && !p.sizes.includes(size)) size = "";
+
+  $("#app").innerHTML =
+    '<h2>অর্ডার করুন</h2>' +
+    '<div class="card sum">' + (img ? '<img src="' + esc(thumb(img)) + '" alt="">' : "") + '<div><b>' + esc(p.name) + '</b><span>৳' + bn(p.price) + '</span></div></div>' +
+    '<div class="card">' +
+      '<label class="f"><span><i class="n">১</i>নাম</span><input id="fName" type="text" autocomplete="name" placeholder="আপনার পূর্ণ নাম"></label>' +
+      '<label class="f"><span><i class="n">২</i>বিভাগ</span><select id="fDiv"><option value="">বিভাগ বাছাই করুন</option>' + Object.keys(AREA).map((d) => '<option>' + d + '</option>').join("") + '</select></label>' +
+      '<label class="f"><span><i class="n">৩</i>জেলা</span><select id="fDis" disabled><option value="">আগে বিভাগ বাছাই করুন</option></select></label>' +
+      '<label class="f"><span><i class="n">৪</i>থানা / উপজেলা</span><input id="fThana" type="text" placeholder="থানা বা উপজেলার নাম"></label>' +
+      '<label class="f"><span><i class="n">৫</i>গ্রাম / এলাকা</span><input id="fVil" type="text" placeholder="গ্রাম, রোড বা এলাকার নাম"></label>' +
+      '<label class="f" style="margin-bottom:0"><span><i class="n">৬</i>মোবাইল নম্বর</span><input id="fPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX"></label>' +
+    '</div>' +
+    '<div class="card">' +
+      (hasC ? '<span class="lb">কালার সিলেক্ট করুন</span><div class="chips" id="colors"></div>' : "") +
+      (hasS ? '<span class="lb">সাইজ সিলেক্ট করুন</span><div class="chips" id="sizes"></div>' : "") +
+      '<span class="lb">কয়টি নিবেন?</span><div class="qty"><button type="button" id="minus" aria-label="কমান">−</button><b id="qv">১</b><button type="button" id="plus" aria-label="বাড়ান">+</button></div>' +
+      '<div class="total"><span>মোট দাম</span><b id="tot"></b></div>' +
+      '<button class="btn" id="go" type="button">অর্ডার করুন</button>' +
+      '<p class="hint">অর্ডার চাপলে WhatsApp-এ অর্ডারের মেসেজ তৈরি হয়ে খুলবে, শুধু "Send" চাপুন।</p>' +
+    '</div>';
+
+  drawAll();
+
+  $("#fDiv").addEventListener("change", (e) => {
+    const s = $("#fDis");
+    const list = AREA[e.target.value] || [];
+    s.innerHTML = '<option value="">জেলা বাছাই করুন</option>' + list.map((d) => '<option>' + d + '</option>').join("");
+    s.disabled = !list.length;
+  });
+
+  const max = p.stock !== undefined ? Number(p.stock) : 99;
+  $("#minus").addEventListener("click", () => { if (qty > 1) { qty--; drawAll(); } });
+  $("#plus").addEventListener("click", () => { if (qty < max) { qty++; drawAll(); } else toast("স্টকে আছে মাত্র " + bn(max) + "টি"); });
+  $("#go").addEventListener("click", submit);
+}
+
+function need(sel, msg) {
+  const el = $(sel);
+  el.classList.add("bad");
+  el.focus();
+  toast(msg);
+  setTimeout(() => el.classList.remove("bad"), 2500);
+  return false;
+}
+
+function submit() {
+  const name = $("#fName").value.trim();
+  const div = $("#fDiv").value;
+  const dis = $("#fDis").value;
+  const thana = $("#fThana").value.trim();
+  const vil = $("#fVil").value.trim();
+  let phone = toEn($("#fPhone").value).replace(/^\+?88/, "");
+
+  if (!name) return need("#fName", "আপনার নাম লিখুন");
+  if (!div) return need("#fDiv", "বিভাগ বাছাই করুন");
+  if (!dis) return need("#fDis", "জেলা বাছাই করুন");
+  if (!thana) return need("#fThana", "থানা লিখুন");
+  if (!vil) return need("#fVil", "গ্রাম বা এলাকার নাম লিখুন");
+  if (!/^01[3-9]\d{8}$/.test(phone)) return need("#fPhone", "সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন");
+  if (p.colors && p.colors.length && !color) return toast("একটি কালার সিলেক্ট করুন");
+  if (p.sizes && p.sizes.length && !size) return toast("একটি সাইজ সিলেক্ট করুন");
+  if (!wa) return toast("অর্ডার নেওয়ার নম্বর এখনো সেট করা হয়নি। পরে চেষ্টা করুন।");
+
+  const total = Number(p.price) * qty;
+  const lines = [
+    "🛒 *নতুন অর্ডার | One X Mart*",
+    "",
+    "📦 পণ্য: " + p.name
+  ];
+  if (color) lines.push("🎨 কালার: " + color);
+  if (size) lines.push("📏 সাইজ: " + size);
+  lines.push(
+    "🔢 পরিমাণ: " + bn(qty) + "টি",
+    "💰 একক দাম: ৳" + bn(p.price),
+    "💵 *মোট দাম: ৳" + bn(total) + "*",
+    "",
+    "👤 নাম: " + name,
+    "📞 মোবাইল: " + phone,
+    "📍 ঠিকানা:",
+    "বিভাগ: " + div,
+    "জেলা: " + dis,
+    "থানা: " + thana,
+    "গ্রাম/এলাকা: " + vil
+  );
+  $("#go").disabled = true;
+  $("#go").textContent = "WhatsApp খুলছে...";
+  location.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent(lines.join("\n"));
+  setTimeout(() => { $("#go").disabled = false; $("#go").textContent = "অর্ডার করুন"; }, 3000);
+}
+
+(async () => {
+  if (!id) return fail();
+  try {
+    const [ps, cs] = await Promise.all([get(ref(db, "products/" + id)), get(ref(db, "settings/contact"))]);
+    p = ps.val();
+    wa = String((cs.val() || {}).whatsapp || "").replace(/\D/g, "");
+  } catch (e) { return fail("লোড করা যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।"); }
+  if (!p || p.published === false) return fail();
+  if (p.stock !== undefined && Number(p.stock) <= 0) return fail("দুঃখিত, পণ্যটির স্টক শেষ।");
+  render();
+})();
+</script>
+</body>
+</html>

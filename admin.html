@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#05050a">
+<title>অ্যাডমিন প্যানেল | One X Mart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#05050a;--line:rgba(255,255,255,.12);--text:#f4f3ff;--muted:#a9a7c4;
+  --violet:#7c5cff;--magenta:#ff3d81;--cyan:#00d4ff;--amber:#ffb020;--green:#2ee59d;--red:#ff5c7a;
+  --grad-main:linear-gradient(120deg,#7c5cff 0%,#ff3d81 55%,#ffb020 100%);
+  --grad-cool:linear-gradient(120deg,#00d4ff 0%,#7c5cff 100%);
+  --grad-warm:linear-gradient(120deg,#ff3d81 0%,#ffb020 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--ink);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.5}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--ink)}
+.bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45}
+.bg .a{width:60vmax;height:60vmax;left:-22vmax;top:-20vmax;background:radial-gradient(circle,#7c5cff,transparent 65%)}
+.bg .b{width:50vmax;height:50vmax;right:-20vmax;bottom:-16vmax;background:radial-gradient(circle,#ff3d81,transparent 65%)}
+.bg .s{position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 118px,rgba(255,255,255,.04) 118px 120px)}
+.hidden{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+/* ---------- লগইন ---------- */
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.box{width:100%;max-width:400px;background:rgba(14,14,28,.9);border:1px solid var(--line);border-radius:26px;padding:28px 22px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.box h1{font-family:'Noto Serif Bengali',serif;font-size:1.6rem;font-weight:800;margin-bottom:4px}
+.box h1 b{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent}
+.box .sub{color:var(--muted);margin-bottom:20px;font-size:.95rem}
+
+/* ---------- ফর্ম ---------- */
+label.f{display:block;margin-bottom:14px}
+label.f>span{display:block;font-size:.9rem;font-weight:600;margin-bottom:6px}
+label.f small{color:var(--muted);font-weight:400}
+input[type=text],input[type=password],input[type=tel],textarea{
+  width:100%;background:rgba(255,255,255,.07);border:1.5px solid var(--line);border-radius:14px;color:var(--text);
+  font-family:inherit;font-size:1rem;padding:12px 14px;outline:0;transition:border-color .15s;
+}
+textarea{min-height:130px;resize:vertical;line-height:1.55}
+input:focus,textarea:focus{border-color:var(--cyan)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;cursor:pointer;color:#fff;
+  font-family:inherit;font-size:1.05rem;font-weight:700;padding:14px 18px;border-radius:16px;background:var(--grad-main);
+  box-shadow:0 12px 28px -10px rgba(255,61,129,.7);transition:transform .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.6}
+.btn.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid var(--line)}
+.err{color:var(--red);font-size:.9rem;margin-bottom:12px;min-height:1.2em}
+
+/* ---------- টপ বার ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(5,5,10,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .in{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:720px;margin:0 auto;padding:12px 16px}
+.top .l{display:flex;align-items:center;gap:10px;min-width:0}
+.top h2{font-family:'Noto Serif Bengali',serif;font-size:1.15rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top h2 b{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill{border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--text);font-family:inherit;font-weight:600;font-size:.88rem;padding:7px 14px;border-radius:99px;cursor:pointer;white-space:nowrap}
+
+.panel{padding:20px 0 90px}
+.panel h3{font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.panel h3::before{content:"";width:5px;height:22px;border-radius:4px;background:var(--grad-main);transform:skewX(-14deg)}
+.card{background:rgba(14,14,28,.82);border:1px solid var(--line);border-radius:22px;padding:18px 16px;margin-bottom:16px}
+.note{color:var(--muted);font-size:.88rem;margin-bottom:14px}
+
+/* ---------- হোম: ক্যাটাগরি কার্ড ---------- */
+.catcards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.cc{position:relative;overflow:hidden;border:0;border-radius:24px;min-height:170px;padding:18px 16px;text-align:left;color:#fff;cursor:pointer;
+  font-family:inherit;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .15s}
+.cc:active{transform:scale(.97)}
+.cc.fashion{background:linear-gradient(145deg,#ff3d81,#a83bff)}
+.cc.gadget{background:linear-gradient(145deg,#00d4ff,#4b5cff)}
+.cc::before{content:"";position:absolute;right:-30px;top:-20px;width:120px;height:240px;background:rgba(255,255,255,.16);transform:skewX(-22deg)}
+.cc::after{content:"";position:absolute;right:36px;top:-20px;width:18px;height:240px;background:rgba(255,255,255,.14);transform:skewX(-22deg)}
+.cc svg{position:absolute;right:16px;top:16px;width:44px;height:44px;z-index:1}
+.cc h4{position:relative;z-index:1;font-size:1.5rem;font-weight:700;line-height:1.2}
+.cc span{position:relative;z-index:1;font-size:.88rem;opacity:.95}
+.setcard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;color:var(--text);font-family:inherit;
+  background:rgba(14,14,28,.82);border:1px solid var(--line);border-radius:20px;padding:16px}
+.setcard svg{width:30px;height:30px;color:var(--amber);flex:none}
+.setcard b{display:block;font-size:1.05rem}
+.setcard span{color:var(--muted);font-size:.85rem}
+
+/* ---------- ক্যাটাগরি পেজের সাব-ট্যাব ---------- */
+.subtabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.st{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--muted);font-family:inherit;font-weight:600;font-size:.98rem;padding:12px 6px;border-radius:14px;cursor:pointer}
+.st.on{background:var(--grad-cool);color:#fff;border-color:transparent}
+
+/* ---------- ছবি বাছাই ---------- */
+.drop{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;cursor:pointer;
+  border:2px dashed rgba(0,212,255,.55);border-radius:20px;padding:24px 14px;background:rgba(0,212,255,.06)}
+.drop{position:relative}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
+.drop svg{width:40px;height:40px;color:var(--cyan)}
+.drop b{font-size:1.05rem}
+.drop span{color:var(--muted);font-size:.85rem}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.th{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#14142a;border:1px solid var(--line)}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th .x{position:absolute;right:5px;top:5px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.75);color:#fff;font-size:1rem;cursor:pointer;display:grid;place-items:center}
+.th .star{position:absolute;left:5px;bottom:5px;border:0;border-radius:99px;font-family:inherit;font-size:.72rem;font-weight:700;padding:3px 9px;cursor:pointer;color:#fff;background:rgba(0,0,0,.75)}
+.th.main{border:2px solid var(--amber)}
+.th.main .star{background:var(--grad-warm)}
+
+/* ---------- পাবলিশকৃত তালিকা ---------- */
+.item{display:flex;gap:12px;align-items:center;background:rgba(14,14,28,.82);border:1px solid var(--line);border-radius:18px;padding:10px;margin-bottom:12px}
+.item img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#14142a;flex:none}
+.item .meta{flex:1;min-width:0}
+.item .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .pr{font-weight:700;background:var(--grad-cool);-webkit-background-clip:text;background-clip:text;color:transparent}
+.item .sx{font-size:.82rem;color:var(--muted)}
+.item .sx.low{color:var(--amber)}
+.item .sx.zero{color:var(--red)}
+.item .ac{display:flex;flex-direction:column;gap:6px}
+.mini{border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:10px;cursor:pointer}
+.mini.del{color:var(--red)}
+.empty{text-align:center;color:var(--muted);padding:40px 10px;border:1.5px dashed var(--line);border-radius:20px}
+
+/* ---------- প্রগ্রেস ও টোস্ট ---------- */
+.prog{position:fixed;inset:0;z-index:80;background:rgba(5,5,10,.9);display:grid;place-items:center;padding:24px}
+.prog .in{width:100%;max-width:360px;text-align:center}
+.prog p{margin-bottom:14px;font-weight:600}
+.bar{height:12px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--grad-main);transition:width .2s}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,30px);opacity:0;z-index:90;
+  background:#14142a;border:1px solid var(--line);padding:12px 20px;border-radius:99px;font-weight:600;max-width:92vw;text-align:center;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{border-color:var(--green);color:var(--green)}
+.toast.bad{border-color:var(--red);color:var(--red)}
+</style>
+</head>
+
+<body>
+<div class="bg" aria-hidden="true"><i class="a"></i><i class="b"></i><div class="s"></div></div>
+
+<!-- ============ লগইন (শুধু পাসওয়ার্ড) ============ -->
+<section class="login" id="loginView">
+  <div class="box">
+    <h1><b>One X Mart</b></h1>
+    <p class="sub">অ্যাডমিন পাসওয়ার্ড দিয়ে প্রবেশ করুন</p>
+    <label class="f"><span>পাসওয়ার্ড</span><input id="pass" type="password" inputmode="numeric" autocomplete="current-password" placeholder="অ্যাডমিন পাসওয়ার্ড"></label>
+    <div class="err" id="loginErr"></div>
+    <button class="btn" id="loginBtn" type="button">প্রবেশ করুন</button>
+  </div>
+</section>
+
+<!-- ============ অ্যাডমিন ============ -->
+<section id="adminView" class="hidden">
+  <div class="top">
+    <div class="in">
+      <div class="l">
+        <button class="pill hidden" id="backBtn" type="button">← পেছনে</button>
+        <h2 id="topTitle"><b>One X Mart</b> অ্যাডমিন</h2>
+      </div>
+      <button class="pill" id="logoutBtn" type="button">লগআউট</button>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- ===== হোম ===== -->
+    <div class="panel" id="v-home">
+      <h3>ক্যাটাগরি</h3>
+      <div class="catcards">
+        <button class="cc fashion" data-cat="fashion" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7a2 2 0 1 0-2-2"/><path d="M12 7v2.2L3.6 15.4A1.6 1.6 0 0 0 4.5 18.3h15a1.6 1.6 0 0 0 .9-2.9L12 9.2"/></svg>
+          <h4>ফ্যাশন</h4>
+          <span id="hc-fashion">০টি পণ্য</span>
+        </button>
+        <button class="cc gadget" data-cat="gadget" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18.5h2"/></svg>
+          <h4>গ্যাজেট</h4>
+          <span id="hc-gadget">০টি পণ্য</span>
+        </button>
+      </div>
+      <button class="setcard" id="openSettings" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <div><b>সেটিংস</b><span>সাপোর্ট নম্বর ও ছবি আপলোড সেটআপ</span></div>
+      </button>
+    </div>
+
+    <!-- ===== ক্যাটাগরি পেজ ===== -->
+    <div class="panel hidden" id="v-cat">
+      <div class="subtabs">
+        <button class="st on" data-sub="add" type="button" id="stAdd">নতুন পণ্য যোগ</button>
+        <button class="st" data-sub="list" type="button" id="stList">পাবলিশকৃত প্রোডাক্ট</button>
+      </div>
+
+      <!-- পণ্য যোগ / এডিট -->
+      <div id="sub-add">
+        <h3 id="formTitle">নতুন পণ্য যোগ করুন</h3>
+
+        <div class="card">
+          <label class="f"><span>পণ্যের ছবি <small>(সর্বোচ্চ ১০টি, প্রথমে যেটা সিলেক্ট করবেন সেটাই প্রধান ছবি)</small></span></label>
+          <div class="drop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+            <b>ছবি বাছাই করতে ট্যাপ করুন</b>
+            <span>গ্যালারি/ফাইল ম্যানেজার থেকে একসাথে একাধিক ছবি সিলেক্ট করুন। ছবি HD কোয়ালিটিতেই যাবে।</span>
+            <input id="files" type="file" accept="image/*" multiple>
+          </div>
+          <p class="note" id="imgCount" style="margin:10px 0 0"></p>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <div class="card">
+          <label class="f"><span>পণ্যের নাম</span><input id="pName" type="text" placeholder="যেমন: প্রিমিয়াম কটন শার্ট"></label>
+          <label class="f"><span>সাইজ <small>(কমা দিয়ে লিখুন)</small></span><input id="pSize" type="text" placeholder="যেমন: M, L, XL, XXL"></label>
+          <label class="f"><span>কালার <small>(কমা দিয়ে লিখুন)</small></span><input id="pColor" type="text" placeholder="যেমন: কালো, সাদা, নীল"></label>
+          <div class="row">
+            <label class="f"><span>দাম (৳)</span><input id="pPrice" type="text" inputmode="decimal" placeholder="যেমন: ৮৫০"></label>
+            <label class="f"><span>আগের দাম <small>(ঐচ্ছিক)</small></span><input id="pOld" type="text" inputmode="decimal" placeholder="যেমন: ১২০০"></label>
+          </div>
+          <label class="f"><span>কোয়ান্টিটি (কয়টি আছে)</span><input id="pStock" type="text" inputmode="numeric" placeholder="যেমন: ২৫"></label>
+          <label class="f"><span>সার্চ কীওয়ার্ড <small>(কমা দিয়ে, ঐচ্ছিক)</small></span><input id="pKeys" type="text" placeholder="shirt, শার্ট, টি-শার্ট"></label>
+          <label class="f"><span>ইউটিউব ভিডিও লিংক <small>(ঐচ্ছিক)</small></span><input id="pVideo" type="text" inputmode="url" placeholder="https://youtube.com/watch?v=..."></label>
+          <label class="f"><span>পণ্যের বিস্তারিত</span><textarea id="pDesc" placeholder="পণ্যের মান, ফেব্রিক, ব্যবহারবিধি, বিশেষত্ব ইত্যাদি লিখুন..."></textarea></label>
+
+          <button class="btn" id="saveBtn" type="button">পণ্য প্রকাশ করুন</button>
+          <button class="btn ghost hidden" id="cancelEdit" type="button" style="margin-top:10px">সম্পাদনা বাতিল করুন</button>
+        </div>
+      </div>
+
+      <!-- পাবলিশকৃত -->
+      <div id="sub-list" class="hidden">
+        <h3 id="listTitle">পাবলিশকৃত প্রোডাক্ট</h3>
+        <div id="list"></div>
+      </div>
+    </div>
+
+    <!-- ===== সেটিংস ===== -->
+    <div class="panel hidden" id="v-settings">
+      <h3>সাপোর্ট নম্বর</h3>
+      <div class="card">
+        <p class="note">এগুলো সাইটের "যেকোনো সমস্যায় যোগাযোগ" বাটনে দেখাবে। ফাঁকা রাখলে ওই অপশন দেখাবে না।</p>
+        <label class="f"><span>হোয়াটসঅ্যাপ নম্বর <small>(দেশের কোডসহ)</small></span><input id="sWa" type="tel" placeholder="8801712345678"></label>
+        <label class="f"><span>মেসেঞ্জার পেজের নাম <small>(m.me/ এর পরের অংশ)</small></span><input id="sMs" type="text" placeholder="onexmart"></label>
+        <label class="f"><span>ফোন নম্বর</span><input id="sPh" type="tel" placeholder="01712345678"></label>
+        <button class="btn" id="saveContact" type="button">নম্বর সেভ করুন</button>
+      </div>
+
+      <h3>সোশ্যাল অ্যাকাউন্ট</h3>
+      <div class="card">
+        <p class="note">এগুলো মূল পেজে চিকন নিয়ন বারে শুধু আইকন হয়ে দেখাবে। ফাঁকা রাখলে ওই আইকন দেখাবে না।</p>
+        <label class="f"><span>ফেসবুক পেজ/প্রোফাইল লিংক</span><input id="sFb" type="text" inputmode="url" placeholder="https://facebook.com/আপনার-পেজ"></label>
+        <label class="f"><span>টিকটক ইউজারনেম বা লিংক</span><input id="sTt" type="text" placeholder="@আপনার_ইউজারনেম  অথবা  https://tiktok.com/@..."></label>
+        <button class="btn" id="saveSocial" type="button">লিংক সেভ করুন</button>
+      </div>
+
+      <h3>ছবি আপলোড (Cloudinary)</h3>
+      <div class="card">
+        <p class="note">একবার দিলেই হবে। এটা দিলে পণ্যের ছবি সরাসরি এখান থেকে আপলোড হবে।</p>
+        <label class="f"><span>Cloud name</span><input id="cCloud" type="text" placeholder="যেমন: dxxxxxxx"></label>
+        <label class="f"><span>Upload preset <small>(Unsigned)</small></span><input id="cPreset" type="text" placeholder="যেমন: onexmart_unsigned"></label>
+        <button class="btn" id="saveCloud" type="button">সেভ করুন</button>
+      </div>
+    </div>
+
+  </main>
+</section>
+
+<div class="prog hidden" id="prog">
+  <div class="in">
+    <p id="progText">আপলোড হচ্ছে...</p>
+    <div class="bar"><i id="progBar"></i></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, get, push, set, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+/* ===================== Firebase কনফিগ ===================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyAoQiTua4EcGnxAl3qs7056WMwehd4qQgc",
+  authDomain: "one-x-mart.firebaseapp.com",
+  databaseURL: "https://one-x-mart-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "one-x-mart",
+  storageBucket: "one-x-mart.firebasestorage.app",
+  messagingSenderId: "451753691167",
+  appId: "1:451753691167:web:e72bf1c201e538dc052d2a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+/* ===================== সাহায্যকারী ===================== */
+const $ = (s) => document.querySelector(s);
+const bn = (n) => Number(n || 0).toLocaleString("bn-BD");
+const toEn = (s) => String(s || "").replace(/[০-৯]/g, (d) => "০১২৩৪৫৬৭৮৯".indexOf(d)).replace(/[,\s]/g, "");
+const toList = (s) => String(s || "").split(/[,،]/).map((x) => x.trim()).filter(Boolean);
+const CATS = { fashion: "ফ্যাশন", gadget: "গ্যাজেট" };
+const MAX_MB = 10;
+
+let toastTimer;
+function toast(msg, type) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.className = "toast show " + (type || "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => (t.className = "toast"), 2800);
+}
+
+function thumb(url, w) {
+  if (url && url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", "/upload/f_auto,q_auto:best,w_" + (w || 400) + ",c_limit/");
+  }
+  return url;
+}
+
+/* ===================== লগইন (শুধু পাসওয়ার্ড) ===================== */
+/* ভেতরে একটি নির্দিষ্ট ইমেইল ব্যবহার হয়। পাসওয়ার্ড কোডে লেখা নেই। প্রথমবার লগইনে অ্যাকাউন্ট নিজে তৈরি হবে। */
+const ADMIN_EMAIL = "admin@onexmart.com";
+
+async function doLogin() {
+  const btn = $("#loginBtn");
+  const err = $("#loginErr");
+  err.textContent = "";
+  const pass = toEn($("#pass").value);
+  if (!pass) { err.textContent = "পাসওয়ার্ড দিন।"; return; }
+  if (pass.length < 6) { err.textContent = "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।"; return; }
+
+  btn.disabled = true;
+  btn.textContent = "অপেক্ষা করুন...";
+  try {
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
+  } catch (e) {
+    if (e.code === "auth/invalid-credential" || e.code === "auth/user-not-found") {
+      // অ্যাকাউন্ট না থাকলে প্রথমবারের জন্য তৈরি করবে, থাকলে পাসওয়ার্ড ভুল
+      try {
+        await createUserWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
+        toast("অ্যাডমিন অ্যাকাউন্ট তৈরি হয়েছে", "ok");
+      } catch (e2) {
+        if (e2.code === "auth/email-already-in-use") err.textContent = "পাসওয়ার্ড ভুল।";
+        else if (e2.code === "auth/operation-not-allowed") err.textContent = "Firebase-এ Email/Password চালু করা হয়নি।";
+        else if (e2.code === "auth/network-request-failed") err.textContent = "ইন্টারনেট সংযোগ নেই।";
+        else if (e2.code === "auth/admin-restricted-operation") err.textContent = "Firebase-এ নতুন অ্যাকাউন্ট খোলা বন্ধ আছে। Console → Authentication → Users → Add user থেকে ইউজার যোগ করুন। (" + e2.code + ")";
+        else if (e2.code === "auth/weak-password" || e2.code === "auth/password-does-not-meet-requirements") err.textContent = "Firebase এই পাসওয়ার্ডটি গ্রহণ করছে না, আরও শক্ত পাসওয়ার্ড লাগবে। (" + e2.code + ")";
+        else err.textContent = "প্রবেশ করা যায়নি। (" + (e2.code || e2.message) + ")";
+      }
+    } else if (e.code === "auth/operation-not-allowed") {
+      err.textContent = "Firebase-এ Email/Password চালু করা হয়নি।";
+    } else if (e.code === "auth/too-many-requests") {
+      err.textContent = "অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।";
+    } else if (e.code === "auth/network-request-failed") {
+      err.textContent = "ইন্টারনেট সংযোগ নেই।";
+    } else {
+      err.textContent = "প্রবেশ করা যায়নি। (" + (e.code || e.message) + ")";
+    }
+  }
+  btn.disabled = false;
+  btn.textContent = "প্রবেশ করুন";
+}
+$("#loginBtn").addEventListener("click", doLogin);
+$("#pass").addEventListener("keydown", (e) => { if (e.key === "Enter") doLogin(); });
+$("#logoutBtn").addEventListener("click", async () => { await signOut(auth); location.reload(); });
+
+let started = false;
+onAuthStateChanged(auth, (user) => {
+  $("#loginView").classList.toggle("hidden", !!user);
+  $("#adminView").classList.toggle("hidden", !user);
+  if (user && !started) { started = true; startAdmin(); go("home"); }
+});
+
+/* ===================== নেভিগেশন ===================== */
+let curCat = null;
+let view = "home";
+
+function go(v) {
+  view = v;
+  ["home", "cat", "settings"].forEach((n) => $("#v-" + n).classList.toggle("hidden", n !== v));
+  $("#backBtn").classList.toggle("hidden", v === "home");
+  $("#topTitle").innerHTML = v === "home" ? "<b>One X Mart</b> অ্যাডমিন" : v === "cat" ? CATS[curCat] : "সেটিংস";
+  window.scrollTo({ top: 0 });
+}
+
+function showSub(n) {
+  $("#sub-add").classList.toggle("hidden", n !== "add");
+  $("#sub-list").classList.toggle("hidden", n !== "list");
+  $("#stAdd").classList.toggle("on", n === "add");
+  $("#stList").classList.toggle("on", n === "list");
+  window.scrollTo({ top: 0 });
+}
+
+function openCat(c) {
+  curCat = c;
+  resetForm();
+  go("cat");
+  showSub("add");
+  renderList();
+}
+
+document.querySelectorAll(".cc").forEach((b) => b.addEventListener("click", () => openCat(b.dataset.cat)));
+$("#openSettings").addEventListener("click", () => go("settings"));
+$("#backBtn").addEventListener("click", () => { resetForm(); go("home"); });
+$("#stAdd").addEventListener("click", () => showSub("add"));
+$("#stList").addEventListener("click", () => showSub("list"));
+
+/* ===================== ডাটা ===================== */
+let products = [];
+let cloud = { cloudName: "", preset: "" };
+
+function startAdmin() {
+  onValue(ref(db, "products"), (snap) => {
+    const v = snap.val() || {};
+    products = Object.entries(v).map(([id, p]) => ({ id, ...p })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    Object.keys(CATS).forEach((k) => {
+      $("#hc-" + k).textContent = bn(products.filter((p) => p.category === k).length) + "টি পণ্য";
+    });
+    renderList();
+  }, () => toast("পণ্য লোড করা যায়নি। Rules ঠিক আছে কিনা দেখুন।", "bad"));
+
+  onValue(ref(db, "settings/contact"), (snap) => {
+    const v = snap.val() || {};
+    $("#sWa").value = v.whatsapp || "";
+    $("#sMs").value = v.messenger || "";
+    $("#sPh").value = v.phone || "";
+  });
+
+  onValue(ref(db, "settings/social"), (snap) => {
+    const v = snap.val() || {};
+    $("#sFb").value = v.facebook || "";
+    $("#sTt").value = v.tiktok || "";
+  });
+
+  onValue(ref(db, "adminSettings/cloudinary"), (snap) => {
+    const v = snap.val() || {};
+    cloud = { cloudName: v.cloudName || "", preset: v.preset || "" };
+    $("#cCloud").value = cloud.cloudName;
+    $("#cPreset").value = cloud.preset;
+  }, () => toast("সেটিংস লোড হয়নি। পেজ রিফ্রেশ করুন।", "bad"));
+}
+
+/* ===================== সেটিংস সেভ ===================== */
+$("#saveContact").addEventListener("click", async () => {
+  try {
+    await set(ref(db, "settings/contact"), {
+      whatsapp: toEn($("#sWa").value).replace(/[^\d]/g, ""),
+      messenger: $("#sMs").value.trim(),
+      phone: toEn($("#sPh").value)
+    });
+    toast("নম্বর সেভ হয়েছে", "ok");
+  } catch (e) { toast("সেভ করা যায়নি। Rules দেখুন।", "bad"); }
+});
+
+$("#saveSocial").addEventListener("click", async () => {
+  const fix = (u) => { u = u.trim(); return u && !/^https?:\/\//i.test(u) ? "https://" + u : u; };
+  try {
+    await set(ref(db, "settings/social"), { facebook: fix($("#sFb").value), tiktok: $("#sTt").value.trim() });
+    toast("লিংক সেভ হয়েছে", "ok");
+  } catch (e) { toast("সেভ করা যায়নি। Rules দেখুন।", "bad"); }
+});
+
+$("#saveCloud").addEventListener("click", async () => {
+  const c = $("#cCloud").value.trim();
+  const p = $("#cPreset").value.trim();
+  if (!c || !p) { toast("দুটো ঘরই পূরণ করুন", "bad"); return; }
+  try {
+    await set(ref(db, "adminSettings/cloudinary"), { cloudName: c, preset: p });
+    cloud = { cloudName: c, preset: p };
+    toast("সেভ হয়েছে", "ok");
+  } catch (e) { toast("সেভ করা যায়নি। Rules দেখুন।", "bad"); }
+});
+
+/* ===================== ছবি বাছাই ===================== */
+// imgs: { url } অথবা { file, preview }
+let imgs = [];
+let editingId = null;
+
+function renderThumbs() {
+  const box = $("#thumbs");
+  box.innerHTML = "";
+  $("#imgCount").textContent = imgs.length ? "ছবি: " + bn(imgs.length) + "/" + bn(MAX_IMGS) : "";
+  imgs.forEach((im, i) => {
+    const d = document.createElement("div");
+    d.className = "th" + (i === 0 ? " main" : "");
+    const img = document.createElement("img");
+    img.src = im.preview || thumb(im.url, 300);
+    img.alt = "ছবি " + bn(i + 1);
+    const x = document.createElement("button");
+    x.type = "button"; x.className = "x"; x.textContent = "✕"; x.setAttribute("aria-label", "ছবি সরান");
+    x.addEventListener("click", () => {
+      if (im.preview) URL.revokeObjectURL(im.preview);
+      imgs.splice(i, 1);
+      renderThumbs();
+    });
+    const st = document.createElement("button");
+    st.type = "button"; st.className = "star";
+    st.textContent = i === 0 ? "প্রধান ছবি" : "প্রধান করুন";
+    st.addEventListener("click", () => {
+      if (i === 0) return;
+      imgs.unshift(imgs.splice(i, 1)[0]);
+      renderThumbs();
+    });
+    d.append(img, x, st);
+    box.appendChild(d);
+  });
+}
+
+const MAX_IMGS = 10;
+const IMG_EXT = /\.(jpe?g|png|webp|gif|bmp|heic|heif|avif)$/i;
+
+// কিছু ফোনে ফাইলের type ফাঁকা আসে, তাই নাম/এক্সটেনশনও দেখা হয়
+function isImage(f) {
+  return (f.type && f.type.startsWith("image/")) || IMG_EXT.test(f.name || "") || !f.type;
+}
+
+// খুব বড় ছবি (১০MB+) HD রেখেই ছোট করে, যাতে আপলোড লিমিটে আটকে না যায়
+function shrink(file) {
+  return new Promise((resolve) => {
+    if (file.size <= MAX_MB * 1024 * 1024 || /heic|heif/i.test(file.type)) return resolve(file);
+    const url = URL.createObjectURL(file);
+    const im = new Image();
+    im.onload = () => {
+      const base = Math.min(1, 4000 / Math.max(im.naturalWidth, im.naturalHeight));
+      const attempt = (sc) => {
+        const c = document.createElement("canvas");
+        c.width = Math.round(im.naturalWidth * sc);
+        c.height = Math.round(im.naturalHeight * sc);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        c.toBlob((blob) => {
+          if (!blob) { URL.revokeObjectURL(url); return resolve(file); }
+          if (blob.size > (MAX_MB - 0.5) * 1024 * 1024 && sc > 0.3) return attempt(sc * 0.85);
+          URL.revokeObjectURL(url);
+          resolve(new File([blob], (file.name || "photo").replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }));
+        }, "image/jpeg", 0.92);
+      };
+      attempt(base);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    im.src = url;
+  });
+}
+
+async function addFiles(list) {
+  const picked = Array.from(list || []);
+  if (!picked.length) return;
+  let added = 0, full = false;
+  toast("ছবি প্রস্তুত হচ্ছে...");
+  for (const f of picked) {
+    if (imgs.length >= MAX_IMGS) { full = true; break; }
+    if (!isImage(f)) continue;
+    const out = await shrink(f);
+    imgs.push({ file: out, preview: URL.createObjectURL(out) });
+    added++;
+  }
+  renderThumbs();
+  if (added) toast(bn(added) + "টি ছবি যোগ হয়েছে" + (full ? " (সর্বোচ্চ " + bn(MAX_IMGS) + "টি)" : ""), "ok");
+  else if (full) toast("সর্বোচ্চ " + bn(MAX_IMGS) + "টি ছবি দেওয়া যায়", "bad");
+  else toast("ছবি যোগ করা যায়নি, অন্য ছবি দিন", "bad");
+}
+
+$("#files").addEventListener("change", async (e) => {
+  const files = Array.from(e.target.files || []);
+  e.target.value = "";
+  await addFiles(files);
+});
+
+/* ===================== Cloudinary আপলোড ===================== */
+function uploadOne(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", cloud.preset);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.cloudinary.com/v1_1/" + encodeURIComponent(cloud.cloudName) + "/image/upload");
+    xhr.upload.onprogress = (e) => { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+    xhr.onload = () => {
+      try {
+        const r = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300 && r.secure_url) resolve(r.secure_url);
+        else reject(new Error((r.error && r.error.message) || "আপলোড ব্যর্থ"));
+      } catch (e) { reject(new Error("আপলোড ব্যর্থ")); }
+    };
+    xhr.onerror = () => reject(new Error("ইন্টারনেট সংযোগ নেই"));
+    xhr.send(fd);
+  });
+}
+
+function setProg(text, pct) {
+  $("#progText").textContent = text;
+  $("#progBar").style.width = Math.round(pct * 100) + "%";
+}
+
+/* ===================== পণ্য সেভ ===================== */
+function resetForm() {
+  imgs.forEach((i) => i.preview && URL.revokeObjectURL(i.preview));
+  imgs = [];
+  editingId = null;
+  ["pName", "pSize", "pColor", "pPrice", "pOld", "pStock", "pKeys", "pDesc", "pVideo"].forEach((id) => ($("#" + id).value = ""));
+  $("#formTitle").textContent = "নতুন পণ্য যোগ করুন";
+  $("#saveBtn").textContent = "পণ্য প্রকাশ করুন";
+  $("#cancelEdit").classList.add("hidden");
+  renderThumbs();
+}
+
+$("#cancelEdit").addEventListener("click", () => { resetForm(); showSub("list"); });
+
+$("#saveBtn").addEventListener("click", async () => {
+  if (!curCat) return;
+  const name = $("#pName").value.trim();
+  const price = parseFloat(toEn($("#pPrice").value));
+  const oldRaw = toEn($("#pOld").value);
+  const oldPrice = oldRaw ? parseFloat(oldRaw) : 0;
+  const stock = parseInt(toEn($("#pStock").value), 10);
+  const sizes = toList($("#pSize").value);
+  const colors = toList($("#pColor").value);
+  const keywords = toList($("#pKeys").value);
+  const description = $("#pDesc").value.trim();
+  const videoUrl = $("#pVideo").value.trim();
+
+  if (!name) return toast("পণ্যের নাম লিখুন", "bad");
+  if (videoUrl && !/youtu/i.test(videoUrl)) return toast("ইউটিউব লিংক সঠিক নয়", "bad");
+  if (isNaN(price) || price < 0) return toast("সঠিক দাম লিখুন", "bad");
+  if (oldRaw && (isNaN(oldPrice) || oldPrice < 0)) return toast("আগের দাম সঠিক নয়", "bad");
+  if (isNaN(stock) || stock < 0) return toast("কোয়ান্টিটি লিখুন", "bad");
+  if (!imgs.length) return toast("কমপক্ষে একটি ছবি দিন", "bad");
+
+  if (imgs.some((i) => i.file) && (!cloud.cloudName || !cloud.preset)) {
+    // লিসেনার কাজ না করলে সরাসরি ডাটাবেজ থেকে আবার পড়ে দেখা হয়
+    try {
+      const snap = await get(ref(db, "adminSettings/cloudinary"));
+      const v = snap.val() || {};
+      cloud = { cloudName: v.cloudName || "", preset: v.preset || "" };
+    } catch (e) {}
+  }
+  if (imgs.some((i) => i.file) && (!cloud.cloudName || !cloud.preset)) {
+    toast("আগে সেটিংসে Cloudinary তথ্য দিন", "bad");
+    go("settings");
+    return;
+  }
+
+  const btn = $("#saveBtn");
+  btn.disabled = true;
+  $("#prog").classList.remove("hidden");
+
+  try {
+    const total = imgs.filter((i) => i.file).length;
+    let done = 0;
+    const finalUrls = [];
+    for (const im of imgs) {
+      if (im.url) { finalUrls.push(im.url); continue; }
+      done++;
+      const label = "ছবি আপলোড হচ্ছে (" + bn(done) + "/" + bn(total) + ")";
+      setProg(label, 0);
+      finalUrls.push(await uploadOne(im.file, (p) => setProg(label, p)));
+    }
+    setProg("পণ্য সেভ হচ্ছে...", 1);
+
+    const data = {
+      name, category: curCat, price, oldPrice: oldPrice > price ? oldPrice : 0, stock,
+      sizes, colors, keywords, description, videoUrl,
+      image: finalUrls[0], images: finalUrls, updatedAt: Date.now()
+    };
+
+    if (editingId) {
+      await update(ref(db, "products/" + editingId), data);
+      toast("পণ্য আপডেট হয়েছে", "ok");
+    } else {
+      data.createdAt = Date.now();
+      data.published = true;
+      await set(push(ref(db, "products")), data);
+      toast("পণ্য সাইটে প্রকাশ হয়েছে", "ok");
+    }
+    resetForm();
+    showSub("list");
+  } catch (e) {
+    console.error(e);
+    toast(e.message && e.message.includes("PERMISSION") ? "অনুমতি নেই। Database Rules ঠিক করুন।" : (e.message || "সেভ করা যায়নি"), "bad");
+  }
+  $("#prog").classList.add("hidden");
+  btn.disabled = false;
+});
+
+/* ===================== পাবলিশকৃত তালিকা: এডিট, লুকান, মুছুন ===================== */
+function renderList() {
+  const box = $("#list");
+  if (!box || !curCat) return;
+  box.innerHTML = "";
+  const list = products.filter((p) => p.category === curCat);
+  $("#listTitle").textContent = "পাবলিশকৃত প্রোডাক্ট (" + bn(list.length) + ")";
+
+  if (!list.length) {
+    const d = document.createElement("div");
+    d.className = "empty";
+    d.textContent = "এই ক্যাটাগরিতে এখনো কোনো পণ্য নেই। \"নতুন পণ্য যোগ\" থেকে প্রথম পণ্য যোগ করুন।";
+    box.appendChild(d);
+    return;
+  }
+
+  list.forEach((p) => {
+    const it = document.createElement("div");
+    it.className = "item";
+    if (p.published === false) it.style.opacity = ".6";
+
+    const img = document.createElement("img");
+    img.src = thumb(p.image || (p.images && p.images[0]) || "", 200);
+    img.alt = p.name || "";
+    img.loading = "lazy";
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = p.name || "নাম নেই";
+    const pr = document.createElement("div"); pr.className = "pr"; pr.textContent = "৳" + bn(p.price);
+    const sx = document.createElement("div");
+    const stock = Number(p.stock);
+    sx.className = "sx" + (stock <= 0 ? " zero" : stock <= 5 ? " low" : "");
+    sx.textContent = (stock <= 0 ? "স্টক শেষ" : "কোয়ান্টিটি: " + bn(stock)) + (p.published === false ? " · লুকানো" : "");
+    meta.append(nm, pr, sx);
+
+    const ac = document.createElement("div");
+    ac.className = "ac";
+
+    const ed = document.createElement("button");
+    ed.className = "mini"; ed.type = "button"; ed.textContent = "এডিট";
+    ed.addEventListener("click", () => startEdit(p));
+
+    const tg = document.createElement("button");
+    tg.className = "mini"; tg.type = "button";
+    tg.textContent = p.published === false ? "প্রকাশ" : "লুকান";
+    tg.addEventListener("click", async () => {
+      try {
+        await update(ref(db, "products/" + p.id), { published: p.published === false });
+        toast(p.published === false ? "পণ্য সাইটে প্রকাশ হয়েছে" : "পণ্য সাইট থেকে লুকানো হয়েছে", "ok");
+      } catch (e) { toast("পরিবর্তন করা যায়নি। Rules দেখুন।", "bad"); }
+    });
+
+    const del = document.createElement("button");
+    del.className = "mini del"; del.type = "button"; del.textContent = "মুছুন";
+    del.addEventListener("click", async () => {
+      if (!confirm("\"" + (p.name || "এই পণ্য") + "\" মুছে ফেলবেন?")) return;
+      try { await remove(ref(db, "products/" + p.id)); toast("পণ্য মুছে গেছে", "ok"); }
+      catch (e) { toast("মুছতে পারেনি। Rules দেখুন।", "bad"); }
+    });
+
+    ac.append(ed, tg, del);
+    it.append(img, meta, ac);
+    box.appendChild(it);
+  });
+}
+
+function startEdit(p) {
+  resetForm();
+  editingId = p.id;
+  $("#pName").value = p.name || "";
+  $("#pSize").value = Array.isArray(p.sizes) ? p.sizes.join(", ") : "";
+  $("#pColor").value = Array.isArray(p.colors) ? p.colors.join(", ") : "";
+  $("#pPrice").value = p.price ?? "";
+  $("#pOld").value = p.oldPrice || "";
+  $("#pStock").value = p.stock ?? "";
+  $("#pKeys").value = Array.isArray(p.keywords) ? p.keywords.join(", ") : (p.keywords || "");
+  $("#pDesc").value = p.description || "";
+  $("#pVideo").value = p.videoUrl || "";
+  const urls = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+  imgs = urls.map((u) => ({ url: u }));
+  $("#formTitle").textContent = "পণ্য সম্পাদনা করুন";
+  $("#saveBtn").textContent = "আপডেট করুন";
+  $("#cancelEdit").classList.remove("hidden");
+  renderThumbs();
+  showSub("add");
+}
+</script>
+</body>
+</html>
