@@ -82,7 +82,7 @@ body{
 .logo-fallback b{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ---------- দুটি অ্যাকশন বাটন ---------- */
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .action{
   position:relative;border:0;cursor:pointer;text-align:left;color:var(--text);
   font-family:inherit;border-radius:22px;padding:2px;
@@ -90,23 +90,23 @@ body{
 }
 .action:active{transform:scale(.97)}
 .action .face{
-  display:flex;flex-direction:column;gap:10px;height:100%;
+  display:flex;flex-direction:column;gap:6px;height:100%;
   background:linear-gradient(160deg,rgba(18,18,32,.94),rgba(10,10,20,.94));
-  border-radius:20px;padding:16px 14px 14px;
+  border-radius:20px;padding:11px 12px 12px;
 }
 .action.a-search{background:var(--grad-cool)}
 .action.a-products{background:var(--grad-warm)}
 .action .ico{
-  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;
+  width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;
 }
 .a-search .ico{background:var(--grad-cool);box-shadow:0 8px 22px -6px rgba(0,212,255,.7)}
 .a-products .ico{background:var(--grad-warm);box-shadow:0 8px 22px -6px rgba(255,61,129,.7)}
-.action .ico svg{width:24px;height:24px}
-.action h3{font-size:1.15rem;font-weight:700;line-height:1.2}
-.action p{font-size:.85rem;color:var(--muted);line-height:1.35}
+.action .ico svg{width:17px;height:17px}
+.action h3{font-size:.95rem;font-weight:700;line-height:1.2}
+.action p{font-size:.72rem;color:var(--muted);line-height:1.3}
 .action .tap{
-  margin-top:auto;align-self:flex-start;font-size:.78rem;font-weight:600;
-  padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.08);border:1px solid var(--line);
+  margin-top:auto;align-self:flex-start;font-size:.7rem;font-weight:600;
+  padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.08);border:1px solid var(--line);
 }
 
 /* ---------- ক্যাটাগরি ---------- */
@@ -277,7 +277,7 @@ footer b{background:var(--grad-main);-webkit-background-clip:text;background-cli
   .grid{grid-template-columns:repeat(4,1fr)}
 }
 @media (max-width:360px){
-  .action h3{font-size:1rem}
+  .action h3{font-size:.88rem}
   .cat h3{font-size:1.2rem}
 }
 @media (prefers-reduced-motion:reduce){
